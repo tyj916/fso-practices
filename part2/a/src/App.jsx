@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Note from './components/Note';
+import noteService from './services/note.js';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -8,11 +8,11 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/notes')
+    noteService
+      .getAll()
       .then(response => {
         setNotes(response.data);
-      });
+      })
   }, []);
 
   const addNote = (e) => {
@@ -23,8 +23,8 @@ const App = () => {
       id: String(notes.length + 1),
     }
 
-    axios
-      .post('http://localhost:3001/notes', noteObject)
+    noteService
+      .create(noteObject)
       .then(response => {
         setNotes(notes.concat(response.data));
         setNewNote('');
@@ -36,7 +36,14 @@ const App = () => {
   }
 
   const toggleImportanceOf = (id) => {
-    console.log(`importance of ${id} needs to be toggled`);
+    const note = notes.find(n => n.id === id);
+    const changedNote = { ...note, important: !note.important }
+
+    noteService
+      .update(id, changedNote)
+      .then(response => {
+        setNotes(notes.map(note => note.id === id ? response.data : note))
+      });
   }
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
