@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const Note = require('./models/note');
 
 const app = express();
 app.use(express.json());
@@ -14,7 +16,6 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger);
 
-const Note = require('./models/note');
 
 let notes = [
   {
