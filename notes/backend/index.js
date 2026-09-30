@@ -2,10 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const Note = require('./models/note');
 
-const app = express();
-app.use(express.json());
-app.use(express.static('dist'));
-
 const requestLogger = (request, response, next) => {
   console.log('Method: ', request.method);
   console.log('Path: ', request.path);
@@ -14,6 +10,9 @@ const requestLogger = (request, response, next) => {
   next();
 }
 
+const app = express();
+app.use(express.static('dist'));
+app.use(express.json());
 app.use(requestLogger);
 
 let notes = [
