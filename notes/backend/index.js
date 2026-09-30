@@ -52,10 +52,12 @@ app.post('/api/notes', (request, response) => {
   });
 });
 
-app.delete('/api/notes/:id', (request, response) => {
-  Note.findByIdAndDelete(request.params.id).then(deletedNote => {
-    response.json(deletedNote);
-  });
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end();
+    })
+    .catch(error => next(error));
 });
 
 const unknownEndpoint = (request, response) => {
