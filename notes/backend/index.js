@@ -75,10 +75,9 @@ app.post('/api/notes', (request, response) => {
 });
 
 app.delete('/api/notes/:id', (request, response) => {
-  const id = request.params.id;
-  notes = notes.filter(note => note.id !== id);
-
-  response.status(204).end();
+  Note.findByIdAndDelete(request.params.id).then(deletedNote => {
+    response.json(deletedNote);
+  });
 });
 
 const unknownEndpoint = (request, response) => {
