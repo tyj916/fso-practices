@@ -1,19 +1,4 @@
-const config = require('../utils/config');
-const logger = require('../utils/logger');
 const mongoose = require('mongoose');
-
-mongoose.set('strictQuery', false);
-
-const url = config.MONGODB_URI;
-
-logger.info('connecting to', url);
-mongoose.connect(url, { family: 4 })
-  .then(result => {
-    logger.info('Connected to MongoDB');
-  })
-  .catch(error => {
-    logger.info('Error connecting to MongoDB', error.message);
-  });
 
 const noteSchema = new mongoose.Schema({
   content: {
