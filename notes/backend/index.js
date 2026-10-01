@@ -8,7 +8,7 @@ const requestLogger = (request, response, next) => {
   console.log('Body: ', request.body);
   console.log('---');
   next();
-}
+};
 
 const app = express();
 app.use(express.static('dist'));
@@ -18,7 +18,7 @@ app.use(requestLogger);
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes);
-  })
+  });
 });
 
 app.get('/api/notes/:id', (request, response, next) => {
@@ -41,10 +41,11 @@ app.post('/api/notes', (request, response, next) => {
     important: body.important || false,
   });
 
-  note.save().then(savedNote => {
-    response.json(savedNote);
-  })
-  .catch(error => next(error));
+  note.save()
+    .then(savedNote => {
+      response.json(savedNote);
+    })
+    .catch(error => next(error));
 });
 
 app.put('/api/notes/:id', (request, response, next) => {
@@ -76,7 +77,7 @@ app.delete('/api/notes/:id', (request, response, next) => {
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
-}
+};
 
 app.use(unknownEndpoint);
 
@@ -90,7 +91,7 @@ const errorHandler = (error, request, response, next) => {
   }
 
   next(error);
-}
+};
 
 app.use(errorHandler);
 
