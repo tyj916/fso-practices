@@ -5,7 +5,7 @@ const average = require('../utils/for_tesing').average;
 
 describe('average', () => {
   test('of one value is the value itself', () => {
-    assert.strictEqual(average[1], 1);
+    assert.strictEqual(average([1]), 1);
   });
 
   test('of many is calculated right', () => {
