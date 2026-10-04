@@ -9,13 +9,15 @@ const Note = require('../models/note');
 const api = supertest(app);
 
 beforeEach(async () => {
-  await Note.deleteMany({})
+  await Note.deleteMany({});
+  console.log('cleared');
 
-  let noteObject = new Note(helper.initialNotes[0]);
-  await noteObject.save();
-
-  noteObject = new Note(helper.initialNotes[1]);
-  await noteObject.save();
+  helper.initialNotes.forEach(async (note) => {
+    let noteObject = new Note(note);
+    await noteObject.save();
+    console.log('saved');
+  });
+  console.log('done');
 });
 
 test('notes are returned as json', async () => {
