@@ -17,6 +17,13 @@ beforeEach(async () => {
   await Promise.all(promiseArray);
 });
 
+// beforeEach(async () => {
+//   await Note.deleteMany({});
+
+//   //easiest way, use mongoose built-in method insertMany()
+//   await Note.insertMany(helper.initialNotes);
+// });
+
 test('notes are returned as json', async () => {
   await api
     .get('/api/notes')
