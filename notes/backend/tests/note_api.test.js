@@ -62,6 +62,11 @@ describe('when there is initially some notes saved', () => {
       const validNonexistingId = await helper.nonExistingId();
       await api.get(`/api/notes/${validNonexistingId}`).expect(404);
     });
+
+    test('fails with statuscode 400 id is invalid', async () => {
+      const invalidId = '5a3d5da59070081a82a3445';
+      await api.get(`/api/notes${invalidId}`).expect(400);
+    });
   });
 
   describe('addition of a new note', () => {
