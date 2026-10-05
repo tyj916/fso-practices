@@ -1,4 +1,5 @@
 const notesRouter = require('express').Router();
+const mongoose = require('mongoose');
 const Note = require('../models/note');
 
 notesRouter.get('/', async (request, response) => {
@@ -7,6 +8,10 @@ notesRouter.get('/', async (request, response) => {
 });
 
 notesRouter.get('/:id', async (request, response, next) => {
+  if (!mongoose.isObjectIdOrHexString(request.params.id)) {
+    return response.status(400).end();
+  }
+
   const note = await Note.findById(request.params.id);
 
   if (note) {
