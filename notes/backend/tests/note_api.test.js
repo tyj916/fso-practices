@@ -57,6 +57,11 @@ describe('when there is initially some notes saved', () => {
 
       assert.deepStrictEqual(resultNote.body, noteToView);
     });
+
+    test('fails with statuscode 404 if note does not exists', async () => {
+      const validNonexistingId = await helper.nonExistingId();
+      await api.get(`/api/notes/${validNonexistingId}`).expect(404);
+    });
   });
 
   describe('addition of a new note', () => {
