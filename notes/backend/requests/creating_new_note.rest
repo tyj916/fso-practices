@@ -3,7 +3,8 @@ Content-Type: application/json
 
 {
   "content": "VS code rest client is a pretty handy tool",
-  "important": true
+  "important": true,
+  "userId": "6ac4d722de4f3b4a1cd351a3"
 }
 
 ### Test validation error (content minLength <5)
