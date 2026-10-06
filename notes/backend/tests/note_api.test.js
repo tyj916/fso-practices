@@ -71,12 +71,16 @@ describe('when there is initially some notes saved', () => {
 
   describe('addition of a new note', () => {
     test('succeeds with valid data', async () => {
+      const usersAtStart = await helper.usersInDb();
+      const userToAddNote = usersAtStart[0];
+
       const newNote = {
         content: 'async/await simplifies making async calls',
         important: true,
+        userId: userToAddNote.id,
       };
 
-      await api
+      const result = await api
         .post('/api/notes')
         .send(newNote)
         .expect(201)
@@ -85,12 +89,22 @@ describe('when there is initially some notes saved', () => {
       const notesAtEnd = await helper.notesInDb();
       assert.strictEqual(notesAtEnd.length, helper.initialNotes.length + 1);
 
+      const usersAtEnd = await helper.usersInDb();
+      const targetUser = usersAtEnd.find(user => user.id === userToAddNote.id);
+      assert.strictEqual(result.body.user, targetUser.id);
+
       const contents = notesAtEnd.map(n => n.content);
       assert(contents.includes('async/await simplifies making async calls'));
     });
 
     test('fails with status code 400 if data invalid', async () => {
-      const newNote = { important: true };
+      const usersAtStart = await helper.usersInDb();
+      const userToAddNote = usersAtStart[0];
+
+      const newNote = { 
+        important: true, 
+        userId: userToAddNote.id,
+      };
 
       await api.post('/api/notes').send(newNote).expect(400);
 
