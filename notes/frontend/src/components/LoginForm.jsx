@@ -1,5 +1,6 @@
 import { useState } from "react";
 import loginService from '../services/login';
+import noteService from '../services/note';
 
 const LoginForm = ({ setUser, setErrorMessage }) => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const LoginForm = ({ setUser, setErrorMessage }) => {
     
     try {
       const user = await loginService.login({ username, password });
+      noteService.setToken(user.token);
       setUser(user);
       setUsername('');
       setPassword('');
