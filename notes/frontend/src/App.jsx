@@ -58,6 +58,10 @@ const App = () => {
       {user && (
         <div>
           <p>{user.name} logged in</p>
+          <button onClick={() => {
+            setUser(null);
+            window.localStorage.removeItem('loggedNoteappUser');
+            }}>Log out</button>
           <NoteForm notes={notes} setNotes={setNotes} />
         </div>
       )}
