@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import Note from './components/Note';
 import Notification from './components/Notification.jsx';
 import Footer from './components/Footer.jsx';
+import NoteForm from './components/NoteForm.jsx';
 import LoginForm from './components/LoginForm.jsx';
 import noteService from './services/note.js';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('a new note...');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [user, setUser] = useState(null);
@@ -19,26 +19,6 @@ const App = () => {
         setNotes(initialNotes);
       })
   }, []);
-
-  const addNote = (e) => {
-    e.preventDefault();
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-      id: String(notes.length + 1),
-    }
-
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNotes(notes.concat(returnedNote));
-        setNewNote('');
-      });
-  }
-
-  const handleNoteChange = (e) => {
-    setNewNote(e.target.value);
-  }
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id);
@@ -60,17 +40,6 @@ const App = () => {
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input 
-        type="text" 
-        onChange={handleNoteChange} 
-        value={newNote} 
-      />
-      <button type='submit'>save</button>
-    </form>
-  )
-
   return (
     <div>
       <h1>Notes</h1>
@@ -80,7 +49,7 @@ const App = () => {
       {user && (
         <div>
           <p>{user.name} logged in</p>
-          {noteForm()}
+          <NoteForm notes={notes} setNotes={setNotes} />
         </div>
       )}
 
