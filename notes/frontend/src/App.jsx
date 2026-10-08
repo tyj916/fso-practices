@@ -3,6 +3,7 @@ import Note from './components/Note';
 import Notification from './components/Notification.jsx';
 import Footer from './components/Footer.jsx';
 import noteService from './services/note.js';
+import loginService from './services/login.js';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     noteService
@@ -60,9 +62,20 @@ const App = () => {
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('logging in with', username, password);
+    
+    try {
+      const user = await loginService.login({ username, password });
+      setUser(user);
+      setUsername('');
+      setPassword('');
+    } catch {
+      setErrorMessage('Wrong credentials');
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
   }
 
   return (
@@ -90,6 +103,7 @@ const App = () => {
             onChange={({target}) => setPassword(target.value)} 
           />
         </div>
+        <button type='submit'>Login</button>
       </form>
 
       <div>
