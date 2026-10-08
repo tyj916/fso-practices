@@ -78,33 +78,48 @@ const App = () => {
     }
   }
 
+  const loginForm = () => {
+    <form onSubmit={handleLogin}>
+      <div>
+        <label htmlFor="username">Username</label>
+        <input 
+          id='username' 
+          type="text" 
+          value={username} 
+          onChange={({target}) => setUsername(target.value)} 
+        />
+      </div>
+      <div>
+        <label htmlFor="password">Password</label>
+        <input 
+          id='password' 
+          type="password" 
+          value={password} 
+          onChange={({target}) => setPassword(target.value)} 
+        />
+      </div>
+      <button type='submit'>Login</button>
+    </form>
+  }
+
+  const noteForm = () => {
+    <form onSubmit={addNote}>
+      <input 
+        type="text" 
+        onChange={handleNoteChange} 
+        value={newNote} 
+      />
+      <button type='submit'>save</button>
+    </form>
+  }
+
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input 
-            id='username' 
-            type="text" 
-            value={username} 
-            onChange={({target}) => setUsername(target.value)} 
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input 
-            id='password' 
-            type="password" 
-            value={password} 
-            onChange={({target}) => setPassword(target.value)} 
-          />
-        </div>
-        <button type='submit'>Login</button>
-      </form>
+      {!user && loginForm()}
+      {user && noteForm()}
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>
@@ -120,14 +135,6 @@ const App = () => {
           />
         )}
       </ul>
-      <form onSubmit={addNote}>
-        <input 
-          type="text" 
-          onChange={handleNoteChange} 
-          value={newNote} 
-        />
-        <button type='submit'>save</button>
-      </form>
 
       <Footer />
     </div>
