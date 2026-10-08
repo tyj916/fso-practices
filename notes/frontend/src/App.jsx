@@ -78,7 +78,7 @@ const App = () => {
     }
   }
 
-  const loginForm = () => {
+  const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
         <label htmlFor="username">Username</label>
@@ -100,9 +100,9 @@ const App = () => {
       </div>
       <button type='submit'>Login</button>
     </form>
-  }
+  )
 
-  const noteForm = () => {
+  const noteForm = () => (
     <form onSubmit={addNote}>
       <input 
         type="text" 
@@ -111,7 +111,7 @@ const App = () => {
       />
       <button type='submit'>save</button>
     </form>
-  }
+  )
 
   return (
     <div>
@@ -119,7 +119,12 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {!user && loginForm()}
-      {user && noteForm()}
+      {user && (
+        <div>
+          <p>{user.name} logged in</p>
+          {noteForm()}
+        </div>
+      )}
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>
