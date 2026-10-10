@@ -9,7 +9,6 @@ import noteService from './services/note.js';
 import loginService from './services/login.js';
 
 const App = () => {
-  const [loginVisible, setLoginVisible] = useState(false);
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
@@ -103,6 +102,16 @@ const App = () => {
       />
     </Togglable>
   );
+  
+  const noteForm = () => (
+    <Togglable buttonLabel='new note'>
+      <NoteForm 
+        onSubmit={addNote} 
+        value={newNote} 
+        handleChange={({target}) => setNewNote(target.value)}
+      />
+    </Togglable>
+  )
 
   return (
     <div>
@@ -117,11 +126,7 @@ const App = () => {
             setUser(null);
             window.localStorage.removeItem('loggedNoteappUser');
             }}>Log out</button>
-          <NoteForm 
-            onSubmit={addNote} 
-            value={newNote} 
-            handleChange={({target}) => setNewNote(target.value)}
-          />
+          {noteForm()}
         </div>
       )}
 
