@@ -5,12 +5,15 @@ import Footer from './components/Footer.jsx';
 import NoteForm from './components/NoteForm.jsx';
 import LoginForm from './components/LoginForm.jsx';
 import noteService from './services/note.js';
+import loginService from './services/login.js';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [user, setUser] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     noteService
@@ -49,12 +52,42 @@ const App = () => {
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    try {
+      const user = await loginService.login({ username, password });
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      );
+      noteService.setToken(user.token);
+      setUser(user);
+      setUsername('');
+      setPassword('');
+    } catch {
+      setErrorMessage('Wrong credentials');
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
+  }
+
+  const handleUsernameChange = (e) => setUsername(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      {!user && <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} />}
+      {!user && <LoginForm 
+        handleSubmit={handleSubmit}
+        handleUsernameChange={handleUsernameChange}
+        handlePasswordChange={handlePasswordChange}
+        username={username}
+        password={password}
+      />}
       {user && (
         <div>
           <p>{user.name} logged in</p>
