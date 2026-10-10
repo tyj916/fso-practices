@@ -8,6 +8,7 @@ import noteService from './services/note.js';
 import loginService from './services/login.js';
 
 const App = () => {
+  const [loginVisible, setLoginVisible] = useState(false);
   const [notes, setNotes] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -71,7 +72,30 @@ const App = () => {
         setErrorMessage(null);
       }, 5000);
     }
-  }
+  };
+
+  const loginForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' };
+    const showWhenVisible = { display: loginVisible ? '' : 'none' };
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm 
+            username={username}
+            password={password}
+            handleSubmit={handleLogin}
+            handleUsernameChange={({target}) => setUsername(target.value)}
+            handlePasswordChange={({target}) => setPassword(target.value)}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div>
