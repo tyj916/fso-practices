@@ -11,6 +11,7 @@ import loginService from './services/login.js';
 const App = () => {
   const [loginVisible, setLoginVisible] = useState(false);
   const [notes, setNotes] = useState([]);
+  const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [user, setUser] = useState(null);
@@ -33,6 +34,22 @@ const App = () => {
       noteService.setToken(user.token);
     };
   }, []);
+  
+  const addNote = (e) => {
+    e.preventDefault();
+    const noteObject = {
+      content: newNote,
+      important: Math.random() < 0.5,
+      id: String(notes.length + 1),
+    }
+
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote));
+        setNewNote('');
+      });
+  }
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id);
@@ -100,7 +117,11 @@ const App = () => {
             setUser(null);
             window.localStorage.removeItem('loggedNoteappUser');
             }}>Log out</button>
-          <NoteForm notes={notes} setNotes={setNotes} />
+          <NoteForm 
+            onSubmit={addNote} 
+            value={newNote} 
+            handleChange={({target}) => setNewNote(target.value)}
+          />
         </div>
       )}
 
