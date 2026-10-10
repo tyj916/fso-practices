@@ -4,6 +4,7 @@ import Notification from './components/Notification.jsx';
 import Footer from './components/Footer.jsx';
 import NoteForm from './components/NoteForm.jsx';
 import LoginForm from './components/LoginForm.jsx';
+import Togglable from './components/Togglable.jsx';
 import noteService from './services/note.js';
 import loginService from './services/login.js';
 
@@ -74,41 +75,24 @@ const App = () => {
     }
   };
 
-  const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' };
-    const showWhenVisible = { display: loginVisible ? '' : 'none' };
-
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
-          <LoginForm 
-            username={username}
-            password={password}
-            handleSubmit={handleLogin}
-            handleUsernameChange={({target}) => setUsername(target.value)}
-            handlePasswordChange={({target}) => setPassword(target.value)}
-          />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
-      </div>
-    );
-  };
+  const loginForm = () => (
+    <Togglable buttonLabel='Login'>
+      <LoginForm 
+        username={username}
+        password={password}
+        handleSubmit={handleLogin}
+        handleUsernameChange={({target}) => setUsername(target.value)}
+        handlePasswordChange={({target}) => setPassword(target.value)}
+      />
+    </Togglable>
+  );
 
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      {!user && <LoginForm 
-        handleSubmit={handleLogin}
-        handleUsernameChange={({target}) => setUsername(target.value)}
-        handlePasswordChange={({target}) => setPassword(target.value)}
-        username={username}
-        password={password}
-      />}
+      {!user && loginForm()}
       {user && (
         <div>
           <p>{user.name} logged in</p>
