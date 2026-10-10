@@ -52,7 +52,7 @@ const App = () => {
 
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     
     try {
@@ -73,18 +73,15 @@ const App = () => {
     }
   }
 
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
       {!user && <LoginForm 
-        handleSubmit={handleSubmit}
-        handleUsernameChange={handleUsernameChange}
-        handlePasswordChange={handlePasswordChange}
+        handleSubmit={handleLogin}
+        handleUsernameChange={({target}) => setUsername(target.value)}
+        handlePasswordChange={({target}) => setPassword(target.value)}
         username={username}
         password={password}
       />}
