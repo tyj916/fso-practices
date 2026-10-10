@@ -10,7 +10,6 @@ import loginService from './services/login.js';
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [user, setUser] = useState(null);
@@ -33,20 +32,12 @@ const App = () => {
       noteService.setToken(user.token);
     };
   }, []);
-  
-  const addNote = (e) => {
-    e.preventDefault();
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-      id: String(notes.length + 1),
-    }
 
+  const addNote = (noteObject) => {
     noteService
       .create(noteObject)
       .then(returnedNote => {
         setNotes(notes.concat(returnedNote));
-        setNewNote('');
       });
   }
 
@@ -105,11 +96,7 @@ const App = () => {
   
   const noteForm = () => (
     <Togglable buttonLabel='new note'>
-      <NoteForm 
-        onSubmit={addNote} 
-        value={newNote} 
-        handleChange={({target}) => setNewNote(target.value)}
-      />
+      <NoteForm createNote={addNote} />
     </Togglable>
   )
 
