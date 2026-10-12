@@ -13,6 +13,11 @@ describe('Note app', () => {
     await page.goto('http://localhost:5173')
 
     await page.getByRole('button', { name: 'Login' }).click()
+    await page.getByRole('textbox').first().fill('root')
+    await page.getByRole('textbox').last().fill('salainen')
+    await page.getByRole('button', { name: 'Login' }).click()
+
+    await expect(page.getByText('Superuser logged in')).toBeVisible()
   })
 })
 
