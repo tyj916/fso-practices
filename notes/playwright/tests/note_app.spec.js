@@ -56,15 +56,15 @@ describe('Note app', () => {
       })
 
       test('one of those can be made nonimportant', async ({ page }) => {
-        await page.getByText('first note')
-          .getByRole('button', { name: 'make not important' }).click()
-        await expect(page.getByText('first note').getByText('make important')).toBeVisible()
+        const otherNoteText = page.getByText('first note')
+        const otherNoteElement = otherNoteText.locator('..') // get parent element
 
-        /** or we can write like this: */
-        // const otherNoteElement = page.getByText('first note')
-        // await otherNoteElement
+        await otherNoteElement.getByRole('button', { name: 'make not important' }).click()
+        await expect(page.getByText('make important')).toBeVisible()
+
+        // await page.getByText('first note')
         //   .getByRole('button', { name: 'make not important' }).click()
-        // await expect(page.getByText('make important')).toBeVisible()
+        // await expect(page.getByText('first note').getByText('make important')).toBeVisible()
       })
     })
   })
