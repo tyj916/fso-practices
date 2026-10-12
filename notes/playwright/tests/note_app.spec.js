@@ -53,10 +53,11 @@ describe('Note app', () => {
       beforeEach(async ({page}) => {
         await createNote(page, 'first note')
         await createNote(page, 'second note')
+        await createNote(page, 'third note')
       })
 
       test('one of those can be made nonimportant', async ({ page }) => {
-        const otherNoteText = page.getByText('first note')
+        const otherNoteText = page.getByText('second note')
         const otherNoteElement = otherNoteText.locator('..') // get parent element
 
         await otherNoteElement.getByRole('button', { name: 'make not important' }).click()
