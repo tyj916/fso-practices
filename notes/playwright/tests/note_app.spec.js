@@ -1,4 +1,5 @@
 const { test, describe, expect, beforeEach } = require('@playwright/test')
+const { loginWith } = require('./helper')
 
 describe('Note app', () => {
   beforeEach(async ({ page, request }) => {
@@ -21,23 +22,12 @@ describe('Note app', () => {
   })
 
   test('user can log in', async ({page}) => {
-    await page.getByRole('button', { name: 'Login' }).click()
-    const textboxes = await page.getByRole('textbox').all()
-    await textboxes[0].fill('mluukkai')
-    await textboxes[1].fill('salainen')
-
-    // await page.getByLabel('username').fill('mluukkai')
-    // await page.getByLabel('password').fill('salaimen')
-
-    await page.getByRole('button', { name: 'Login' }).click()
+    await loginWith(page, 'mluukkai', 'salainen')
     await expect(page.getByText('Matti Luukkainen logged in')).toBeVisible()
   })
 
   test('login fails with wrong password', async ({ page }) => {
-    await page.getByRole('button', { name: 'Login' }).click()
-    await page.getByRole('textbox', { name: 'username' }).fill('mluukkai')
-    await page.getByRole('textbox', { name: 'password' }).fill('wrong')
-    await page.getByRole('button', { name: 'Login' }).click()
+    await loginWith(page, 'mluukkai', 'wrong')
 
     await expect(page.getByText('Wrong credentials')).toBeVisible()
 
@@ -51,10 +41,7 @@ describe('Note app', () => {
 
   describe('when logged in', () => {
     beforeEach(async ({page}) => {
-      await page.getByRole('button', { name: 'Login' }).click()
-      await page.getByRole('textbox', { name: 'username' }).fill('mluukkai')
-      await page.getByRole('textbox', { name: 'password' }).fill('salainen')
-      await page.getByRole('button', { name: 'Login' }).click()
+      await loginWith(page, 'mluukkai', 'salainen')
     })
 
     test('a new note can be created', async ({ page }) => {
