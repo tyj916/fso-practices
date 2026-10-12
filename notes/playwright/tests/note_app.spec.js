@@ -1,7 +1,16 @@
 const { test, describe, expect, beforeEach } = require('@playwright/test')
 
 describe('Note app', () => {
-  beforeEach(async ({ page }) => {
+  beforeEach(async ({ page, request }) => {
+    await request.post('http://localhost:3001/api/testing/reset')
+    await request.post('http://localhost:3001/api/users', {
+      data: {
+        name: 'Matti Luukkainen',
+        username: 'mluukkai',
+        password: 'salainen'
+      }
+    })
+
     await page.goto('http://localhost:5173')
   })
 
@@ -14,10 +23,10 @@ describe('Note app', () => {
   test('user can log in', async ({page}) => {
     await page.getByRole('button', { name: 'Login' }).click()
     const textboxes = await page.getByRole('textbox').all()
-    await textboxes[0].fill('root')
+    await textboxes[0].fill('mluukkai')
     await textboxes[1].fill('salainen')
 
-    // await page.getByLabel('username').fill('root')
+    // await page.getByLabel('username').fill('mluukkai')
     // await page.getByLabel('password').fill('salaimen')
 
     await page.getByRole('button', { name: 'Login' }).click()
@@ -27,7 +36,7 @@ describe('Note app', () => {
   describe('when logged in', () => {
     beforeEach(async ({page}) => {
       await page.getByRole('button', { name: 'Login' }).click()
-      await page.getByRole('textbox', { name: 'username' }).fill('root')
+      await page.getByRole('textbox', { name: 'username' }).fill('mluukkai')
       await page.getByRole('textbox', { name: 'password' }).fill('salainen')
       await page.getByRole('button', { name: 'Login' }).click()
     })
