@@ -6,7 +6,13 @@ describe('Note app', () => {
 
     const locator = page.getByText('Notes')
     await expect(locator).toBeVisible()
-    await expect(page.getByText('Note app, Department of Computer Science, University of Helsinki 2024')).toBeVisible()
+    await expect(page.getByText('Note app, Department of Computer Science, University of Helsinki 2025')).toBeVisible()
+  })
+
+  test('user can log in', async ({page}) => {
+    await page.goto('http://localhost:5173')
+
+    await page.getByRole('button', { name: 'Login' }).click()
   })
 })
 
