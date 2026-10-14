@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import Note from './Note'
+import { Link } from 'react-router-dom'
 import Notification from './Notification.jsx'
 import NoteForm from './NoteForm.jsx'
 import LoginForm from './LoginForm.jsx'
@@ -30,24 +30,6 @@ const NoteList = ({ notes, setNotes }) => {
       .create(noteObject)
       .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
-      })
-  }
-
-  const toggleImportanceOf = (id) => {
-    const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important }
-
-    noteService
-      .update(id, changedNote)
-      .then(returnedNote => {
-        setNotes(notes.map(note => note.id === id ? returnedNote : note))
-      })
-      .catch(err => {
-        setErrorMessage(`the note '${note.content}' was already deleted from server`)
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-        setNotes(notes.filter(n => n.id !== id))
       })
   }
 
@@ -116,11 +98,9 @@ const NoteList = ({ notes, setNotes }) => {
       </div>
       <ul>
         {notesToShow.map(note =>
-          <Note
-            key={note.id}
-            note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
-          />
+          <li key={note.id}>
+            <Link to={`/notes/${note.id}`}>{note.content}</Link>
+          </li>
         )}
       </ul>
     </div>
