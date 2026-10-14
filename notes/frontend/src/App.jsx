@@ -7,9 +7,7 @@ const App = () => {
   const [notes, setNotes] = useState([])
 
   useEffect(() => {
-    noteService
-      .getAll()
-      .then(initialNotes => {
+    noteService.getAll().then(initialNotes => {
         setNotes(initialNotes)
       })
   }, [])
