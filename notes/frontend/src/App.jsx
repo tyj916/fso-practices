@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react'
-import Footer from './components/Footer.jsx'
-import NoteList from './components/NoteList.jsx'
 import noteService from './services/note.js'
+import { 
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
+import Home from './components/Home.jsx'
+import NoteList from './components/NoteList.jsx'
+import Footer from './components/Footer.jsx'
 
 const App = () => {
   const [notes, setNotes] = useState([])
@@ -13,10 +18,20 @@ const App = () => {
   }, [])
 
   return (
-    <div>
-      <NoteList notes={notes} setNotes={setNotes} />
+    <Router>
+      <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/notes'>Notes</Link>
+      </nav>
+
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/notes' element= {
+          <NoteList notes={notes} setNotes={setNotes} />
+        } />
+      </Routes>
       <Footer />
-    </div>
+    </Router>
   )
 }
 
