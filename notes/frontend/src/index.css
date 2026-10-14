@@ -7,3 +7,9 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.navbar {
+  display: flex;
+  gap: 16px;
+  padding: 8px;
+}
