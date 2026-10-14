@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/note.js'
-import { 
-  BrowserRouter as Router,
-  Routes, Route, Link
-} from 'react-router-dom'
+import { Routes, Route, Link, useMatch } from 'react-router-dom'
 import Home from './components/Home.jsx'
 import NoteList from './components/NoteList.jsx'
 import Note from './components/Note.jsx'
@@ -12,6 +9,10 @@ import NoteForm from './components/NoteForm.jsx'
 
 const App = () => {
   const [notes, setNotes] = useState([])
+  const match = useMatch('/notes/:id')
+  const note = match
+    ? notes.find(note => note.id === match.params.id)
+    : null
 
   useEffect(() => {
     noteService.getAll().then(initialNotes => {
@@ -52,7 +53,7 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <div>
       <nav className='navbar'>
         <Link to='/'>Home</Link>
         <Link to='/notes'>Notes</Link>
@@ -66,7 +67,7 @@ const App = () => {
         } />
         <Route path='/notes/:id' element={
           <Note 
-            notes={notes} 
+            note={note} 
             toggleImportance={toggleImportanceOf} 
             deleteNote={deleteNote} 
           />
@@ -76,7 +77,7 @@ const App = () => {
         } />
       </Routes>
       <Footer />
-    </Router>
+    </div>
   )
 }
 
