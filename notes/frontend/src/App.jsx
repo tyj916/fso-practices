@@ -45,6 +45,12 @@ const App = () => {
       })
   }
 
+  const deleteNote = (id) => {
+    noteService.remove(id).then(() => {
+      setNotes(notes.filter(note => note.id !== id))
+    })
+  }
+
   return (
     <Router>
       <nav className='navbar'>
@@ -59,7 +65,11 @@ const App = () => {
           <NoteList notes={notes} setNotes={setNotes} />
         } />
         <Route path='/notes/:id' element={
-          <Note notes={notes} toggleImportance={toggleImportanceOf} />
+          <Note 
+            notes={notes} 
+            toggleImportance={toggleImportanceOf} 
+            deleteNote={deleteNote} 
+          />
         } />
         <Route path='/create' element={
           <NoteForm createNote={addNote} />
