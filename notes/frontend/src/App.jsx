@@ -14,7 +14,7 @@ import loginService from './services/login.js'
 const App = () => {
   const [notes, setNotes] = useState([])
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const match = useMatch('/notes/:id')
@@ -38,11 +38,13 @@ const App = () => {
   }, [])
   
   const addNote = (noteObject) => {
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNotes(notes.concat(returnedNote))
-      })
+    noteService.create(noteObject).then(returnedNote => {
+      setNotes(notes.concat(returnedNote))
+      setNotification({ text: `Note ${returnedNote} added!`, type: 'success'})
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    })
   }
 
   const toggleImportanceOf = (id) => {
@@ -55,9 +57,9 @@ const App = () => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
       })
       .catch(err => {
-        setErrorMessage(`the note '${note.content}' was already deleted from server`)
+        setNotification({ text: `the note '${note.content}' was already deleted from server`, type: 'success' })
         setTimeout(() => {
-          setErrorMessage(null)
+          setNotification(null)
         }, 5000)
         setNotes(notes.filter(n => n.id !== id))
       })
@@ -83,9 +85,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      setErrorMessage('Wrong credentials')
+      setNotification({ text: 'Wrong credentials', type: 'error' })
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotification(null)
       }, 5000)
     }
   }
@@ -110,7 +112,7 @@ const App = () => {
         <Link to='/create'>New Note</Link>
       </nav>
 
-      <Notification message={errorMessage} />
+      <Notification notification={notification} />
 
       {!user && loginForm()}
       {user && (
