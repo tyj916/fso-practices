@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useMatch } from 'react-router-dom'
+import { AppBar, Toolbar, Button } from '@mui/material'
 import Home from './components/Home.jsx'
 import NoteList from './components/NoteList.jsx'
 import Note from './components/Note.jsx'
@@ -104,13 +105,23 @@ const App = () => {
     </Togglable>
   )
 
+  const style = { '&:hover': {bgcolor: 'rgba(255, 255, 255, 0.3)'} }
+
   return (
     <div>
-      <nav className='navbar'>
-        <Link to='/'>Home</Link>
-        <Link to='/notes'>Notes</Link>
-        <Link to='/create'>New Note</Link>
-      </nav>
+      <AppBar position='static'>
+        <Toolbar>
+          <Button color='inherit' component={Link} to='/' sx={style}>
+            Home
+          </Button>
+          <Button color='inherit' component={Link} to='/notes' sx={style}>
+            Notes
+          </Button>
+          <Button color='inherit' component={Link} to='/create' sx={style}>
+            New Note
+          </Button>
+        </Toolbar>
+      </AppBar>
 
       <Notification notification={notification} />
 
