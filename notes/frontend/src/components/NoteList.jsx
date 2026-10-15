@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Notification from './Notification.jsx'
-import NoteForm from './NoteForm.jsx'
 import LoginForm from './LoginForm.jsx'
 import Togglable from './Togglable.jsx'
 import noteService from '../services/note.js'
@@ -10,13 +9,11 @@ import loginService from '../services/login.js'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } 
 from '@mui/material'
 
-const NoteList = ({ notes, setNotes }) => {
-  const [showAll, setShowAll] = useState(true)
+const NoteList = ({ notes }) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const noteFormRef = useRef()
   
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -26,17 +23,6 @@ const NoteList = ({ notes, setNotes }) => {
       noteService.setToken(user.token)
     };
   }, [])
-
-  const addNote = (noteObject) => {
-    noteFormRef.current.toggleVisibility()
-    noteService
-      .create(noteObject)
-      .then(returnedNote => {
-        setNotes(notes.concat(returnedNote))
-      })
-  }
-
-  const notesToShow = showAll ? notes : notes.filter(note => note.important)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -71,12 +57,6 @@ const NoteList = ({ notes, setNotes }) => {
     </Togglable>
   )
 
-  const noteForm = () => (
-    <Togglable buttonLabel='new note' ref={noteFormRef}>
-      <NoteForm createNote={addNote} />
-    </Togglable>
-  )
-
   console.log(notes);
 
   return (
@@ -89,7 +69,6 @@ const NoteList = ({ notes, setNotes }) => {
             setUser(null)
             window.localStorage.removeItem('loggedNoteappUser')
           }}>Log out</button>
-          {noteForm()}
         </div>
       )}
 
