@@ -1,4 +1,5 @@
 import { useNotes } from "../store"
+import Note from "./Note"
 
 const NoteList = () => {
   const notes = useNotes()
@@ -6,9 +7,7 @@ const NoteList = () => {
   return (
     <ul>
       {notes.map(note => (
-        <li key={note.id}>
-          {note.important ? <strong>{note.content}</strong> : note.content}
-        </li>
+        <Note key={note.id} note={note} />
       ))}
     </ul>
   )
