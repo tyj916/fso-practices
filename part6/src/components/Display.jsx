@@ -1,4 +1,4 @@
-import useCounterStore from '../store'
+import { useCounterStore } from '../store'
 
 const Display = () => {
   const counter = useCounterStore(state => state.counter)
