@@ -1,14 +1,14 @@
+import Display from './components/Display'
 import useCounterStore from './store'
 
 function App() {
-  const counter = useCounterStore(state => state.counter)
   const increment = useCounterStore(state => state.increment)
   const decrement = useCounterStore(state => state.decrement)
   const zero = useCounterStore(state => state.zero)
 
   return (
     <div>
-      <div>{counter}</div>
+      <Display />
       <div>
         <button onClick={increment}>plus</button>
         <button onClick={decrement}>minus</button>
