@@ -4,7 +4,7 @@ const useNoteStore = create(set => ({
   notes: [],
   actions: {
     add: note => set(
-      state => ({ notes: [...state.note, note] })
+      state => ({ notes: [...state.notes, note] })
     )
   }
 }))
