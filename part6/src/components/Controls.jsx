@@ -1,7 +1,7 @@
-import { useCounterStore } from '../store'
+import { useCounterControls } from '../store'
 
 const Controls = () => {
-  const { increment, decrement, zero } = useCounterStore(state => state.actions)
+  const { increment, decrement, zero } = useCounterControls()
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export const useCounterStore = create(set => ({
+const useCounterStore = create(set => ({
   counter: 0,
   actions: {
     increment: () => set(state => ({ counter: state.counter + 1 })),
@@ -8,3 +8,6 @@ export const useCounterStore = create(set => ({
     zero: () => set(() => ({ counter: 0 })),
   },
 }))
+
+export const useCounter = () => useCounterStore(state => state.counter)
+export const useCounterControls = () => useCounterStore(state => state.actions)
