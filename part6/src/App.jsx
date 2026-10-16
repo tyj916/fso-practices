@@ -1,11 +1,4 @@
-import { create } from 'zustand'
-
-const useCounterStore = create(set => ({
-  counter: 0,
-  increment: () => set(state => ({ counter: state.counter + 1 })),
-  decrement: () => set(state => ({ counter: state.counter - 1 })),
-  zero: () => set(() => ({ counter: 0 }))
-}))
+import useCounterStore from './store'
 
 function App() {
   const counter = useCounterStore(state => state.counter)
