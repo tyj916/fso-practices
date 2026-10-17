@@ -21,7 +21,7 @@ const VisibilityFilter = () => {
       <input 
         type="radio" 
         name="filter"
-        onChange={() => setFilter('notimportant')}
+        onChange={() => setFilter('nonimportant')}
       />
       not important
     </div>

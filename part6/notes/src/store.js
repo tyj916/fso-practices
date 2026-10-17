@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import noteService from './services/note'
+import noteService from './services/notes'
 
 const logger = (config) => (set, get) => config(
   (...args) => {
@@ -40,7 +40,7 @@ export const useNotes = () => {
   const filter = useNoteStore((state) => state.filter)
 
   if (filter === 'important') return notes.filter(note => note.important)
-  if (filter === 'notimportant') return notes.filter(note => !note.important)
+  if (filter === 'nonimportant') return notes.filter(note => !note.important)
 
   return notes
 }
