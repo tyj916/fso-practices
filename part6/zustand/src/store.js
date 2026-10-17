@@ -1,29 +1,14 @@
 import { create } from 'zustand'
-import { useShallow } from 'zustand/shallow'
 
 const useCounterStore = create(set => ({
   counter: 0,
-  changes: 0,
   actions: {
-    increment: () => set(state => ({ 
-      counter: state.counter + 1,
-      changes: state.changes + 1, 
-    })),
-    decrement: () => set(state => ({ 
-      counter: state.counter - 1, 
-      changes: state.changes + 1, 
-    })),
-    zero: () => set(state => ({ 
-      counter: 0, 
-      changes: state.changes + 1, 
-    })),
+    increment: () => set(state => ({ counter: state.counter + 1 })),
+    decrement: () => set(state => ({ counter: state.counter - 1 })),
+    zero: () => set(() => ({ counter: 0 })),
   },
 }))
 
-export const useValue = () => useCounterStore(
-  useShallow((state) => ({
-    counter: state.counter,
-    changes: state.changes,
-  }))
-)
+export const useValue = () => useCounterStore(state => state.counter )
 export const useCounterControls = () => useCounterStore(state => state.actions)
+export default useCounterStore
