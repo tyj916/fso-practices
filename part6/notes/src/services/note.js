@@ -26,7 +26,24 @@ const createNew = async (content) => {
   return await response.json()
 }
 
+const update = async (id, note) => {
+  const options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(note),
+  }
+
+  const response = await fetch(`${baseUrl}/${id}`, options)
+
+  if (!response.ok) {
+    throw new Error('Failed to update note')
+  }
+
+  return await response.json()
+}
+
 export default {
   getAll,
   createNew,
+  update
 }
