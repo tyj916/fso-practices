@@ -1,7 +1,7 @@
-import { useValue } from '../store'
+import { useCounter } from '../store'
 
 const Display = () => {
-  const { counter } = useValue()
+  const { counter } = useCounter()
 
   return (
     <div>{counter}</div>
