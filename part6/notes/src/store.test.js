@@ -60,4 +60,32 @@ describe('useNoteActions', () => {
     const { result: notesResult } = renderHook(() => useNotes())
     expect(notesResult.current[0].important).toBe(true)
   })
+
+  describe('useNotes filtering', () => {
+    const notes = [
+      { id: 1, content: 'A', important: true },
+      { id: 2, content: 'B', important: false },
+    ]
+
+    beforeEach(() => {
+      useNoteStore.setState({ notes })
+    })
+
+    it('returns all notes with no filter', () => {
+      const { result } = renderHook(() => useNotes())
+      expect(result.current).toHaveLength(2)
+    })
+
+    it('filters important notes', () => {
+      useNoteStore.setState({ notes, filter: 'important' })
+      const { result } = renderHook(() => useNotes())
+      expect(result.current).toEqual([notes[0]])
+    })
+
+    it('filters nonimportant notes', () => {
+      useNoteStore.setState({ notes, filter: 'nonimportant' })
+      const { result } = renderHook(() => useNotes())
+      expect(result.current).toEqual([notes[1]])
+    })
+  })
 })
