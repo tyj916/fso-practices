@@ -1,5 +1,4 @@
 import { useEffect } from "react"
-import noteService from './services/note'
 import NoteForm from "./components/NoteForm"
 import NoteList from "./components/NoteList"
 import VisibilityFilter from "./components/VisibilityFilter"
@@ -9,7 +8,7 @@ function App() {
   const { initialize } = useNoteActions()
 
   useEffect(() => {
-    noteService.getAll().then(notes => initialize(notes))
+    initialize()
   }, [initialize])
   
   return (
