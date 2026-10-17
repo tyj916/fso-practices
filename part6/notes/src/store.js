@@ -1,23 +1,7 @@
 import { create } from 'zustand'
 
-const initialNotes = [
-  {
-    id: 1,
-    content: 'Zustand is less complex than Redux',
-    important: true,
-  }, {
-    id: 2,
-    content: 'React app benefits from custom hooks',
-    important: false,
-  }, {
-    id: 3,
-    content: 'Remember to sleep well',
-    important: true,
-  }
-]
-
 const useNoteStore = create(set => ({
-  notes: initialNotes,
+  notes: [],
   filter: 'all',
   actions: {
     add: note => set(
@@ -28,7 +12,8 @@ const useNoteStore = create(set => ({
         note.id === id ? { ...note, important: !note.important } : note
       ) })
     ),
-    setFilter: value => set(() => ({ filter: value }))
+    setFilter: value => set(() => ({ filter: value })),
+    initialize: notes => set(() => ({ notes }))
   }
 }))
 
