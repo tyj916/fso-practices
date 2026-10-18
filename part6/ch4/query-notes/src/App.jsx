@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
+import { getNotes } from "./requests"
 
 const App = () => {
   const addNote = async (event) => {
@@ -14,13 +15,7 @@ const App = () => {
 
   const result = useQuery({
     queryKey: ['notes'],
-    queryFn: async () => {
-      const response = await fetch('http://localhost:3001/notes')
-      if (!response.ok) {
-        throw new Error('Failed to fetch notes')
-      }
-      return await response.json()
-    }
+    queryFn: getNotes
   })
 
   console.log(JSON.parse(JSON.stringify(result)))
