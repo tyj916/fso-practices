@@ -9,6 +9,12 @@
       "id": "2",
       "content": "context api provides an alternative way for sharing data between components",
       "important": false
+    },
+    {
+      "content": "test",
+      "important": true,
+      "id": "fG9mTeEzAzA"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
