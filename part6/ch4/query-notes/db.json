@@ -19,6 +19,11 @@
       "content": "add",
       "important": false,
       "id": "sM-6nE4psAg"
+    },
+    {
+      "content": "test",
+      "important": true,
+      "id": "UkNRT9SL274"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
