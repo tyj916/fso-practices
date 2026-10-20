@@ -1,10 +1,12 @@
+import { useState } from "react"
 import useCounter from "./useCounter"
+import useField from "./useField"
 
 const App = () => {
   const left = useCounter()
   const right = useCounter()
 
-  const [name, setName] = useState('')
+  const name = useField('text')
   const [born, setBorn] = useState('')
   const [height, setHeight] = useState('')
 
@@ -14,9 +16,9 @@ const App = () => {
       <form>
         name: 
         <input
-          type='text'
-          value={name}
-          onChange={(event) => setName(event.target.value)} 
+          type={name.type}
+          value={name.value}
+          onChange={name.onChange} 
         /> 
         <br/> 
         birthdate:
@@ -34,7 +36,7 @@ const App = () => {
         />
       </form>
       <div>
-        {name} {born} {height} 
+        {name.value} {born} {height} 
       </div>
 
       <h2>Counter hook</h2>
