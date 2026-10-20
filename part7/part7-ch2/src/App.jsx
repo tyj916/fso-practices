@@ -6,7 +6,7 @@ const App = () => {
   const right = useCounter()
 
   const name = useField('text')
-  const born = useField('text')
+  const born = useField('date')
   const height = useField('text')
 
   return (
