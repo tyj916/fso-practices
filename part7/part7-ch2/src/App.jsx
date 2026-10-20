@@ -15,11 +15,7 @@ const App = () => {
       <h2>Form field hook</h2>
       <form>
         name: 
-        <input
-          type={name.type}
-          value={name.value}
-          onChange={name.onChange} 
-        /> 
+        <input {...name} /> 
         <br/> 
         birthdate:
         <input
