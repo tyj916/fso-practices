@@ -39,9 +39,14 @@ const typeDefs = /* GraphQL */ `
     id: ID!
   }
 
+  enum YesNo {
+    YES
+    NO
+  }
+
   type Query {
     personCount: Int!
-    allPersons: [Person!]!
+    allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
   }
 
@@ -58,7 +63,16 @@ const typeDefs = /* GraphQL */ `
 const resolvers = {
   Query: {
     personCount: () => persons.length,
-    allPersons: () => persons,
+    allPersons: (root, args) => {
+      if (!args.phone) {
+        return persons
+      }
+
+      const byPhone = (person) =>
+        args.phone === 'YES' ? person.phone : !person.phone
+
+      return persons.filter(byPhone)
+    },
     findPerson: (root, args) => 
       persons.find(p => p.name === args.name)
   },
@@ -80,7 +94,7 @@ const resolvers = {
           }
         })
       }
-      
+
       const person = { ...args, id: uuid() }
       persons = persons.concat(person)
       return person
