@@ -52,10 +52,10 @@ const resolvers = {
       persons.find(p => p.name === args.name)
   },
   Person: {
-    address: (root) => {
+    address: ({ street, city }) => {
       return {
-        street: root.street,
-        city: root.city
+        street,
+        city
       }
     }
   }
