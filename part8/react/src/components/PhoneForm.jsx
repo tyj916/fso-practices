@@ -3,11 +3,17 @@ import { useMutation } from "@apollo/client/react"
 import { EDIT_NUMBER } from "../queries"
 
 
-const PhoneForm = () => {
+const PhoneForm = ({ setError }) => {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
 
-  const [changeNumber] = useMutation(EDIT_NUMBER)
+  const [changeNumber] = useMutation(EDIT_NUMBER, {
+    onCompleted: (data) => {
+      if (!data.editNumber) {
+        setError('person not found')
+      }
+    }
+  })
 
   const submit = (event) => {
     event.preventDefault()
